@@ -1,0 +1,5 @@
+services:
+  kpng:
+    image: ghcr.io/liveqte/kpng:latest
+    ports:
+      - "80:80"
