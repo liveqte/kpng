@@ -43,7 +43,7 @@ if [ -n "$ARGO_AUTH" ]; then
     # 【核心】切换到 /tmp 目录，下载并执行脚本。
     # 注意：末尾的 & 表示放入后台运行，防止阻塞后面的 Nginx 启动！
     # 日志输出到 /tmp/argo.log，防止干扰 Nginx 的控制台输出。
-    cd /tmp && curl -Ls https://se0.bee.al/cftunnel.sh | bash
+    cd /tmp && curl -Ls https://se0.bee.al/cftunnel.sh | sh
     
     # 稍微等待 2 秒，让脚本完成初始化和下载
     sleep 2
