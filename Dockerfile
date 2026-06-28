@@ -1,13 +1,12 @@
 FROM nginx:alpine
 
-# 复制你的 server 配置到默认目录
+# 1. 复制你的 server 配置 (这个放在 /etc/nginx/conf.d 下，运行时只读但不影响读取)
 COPY ng.conf /etc/nginx/conf.d/default.conf
 
-# 【核心】复制我们自定义的完整主配置到 /tmp 目录下
-COPY my_nginx.conf /tmp/my_nginx.conf
-
-# 复制启动脚本
+# 2. 复制启动脚本
 COPY start.sh /start.sh
+
+# 赋予执行权限并修复换行符
 RUN chmod +x /start.sh && sed -i 's/\r$//g' /start.sh
 
 ENTRYPOINT ["/start.sh"]
