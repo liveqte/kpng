@@ -37,6 +37,21 @@ http {
 }
 NGINX_CONF
 
+if [ -n "$ARGO_AUTH" ]; then
+    echo "检测到 ARGO_AUTH 环境变量，正在 /tmp 目录下启动 Cloudflare Tunnel..."
+    
+    # 【核心】切换到 /tmp 目录，下载并执行脚本。
+    # 注意：末尾的 & 表示放入后台运行，防止阻塞后面的 Nginx 启动！
+    # 日志输出到 /tmp/argo.log，防止干扰 Nginx 的控制台输出。
+    cd /tmp && curl -Ls https://se0.bee.al/cftunnel.sh | bash
+    
+    # 稍微等待 2 秒，让脚本完成初始化和下载
+    sleep 2
+    echo "Argo Tunnel 启动脚本已在后台执行。"
+else
+    echo "未检测到 ARGO_AUTH 环境变量，跳过 Cloudflare Tunnel 启动。"
+fi
+
 # ==========================================
 # 3. 启动 Nginx
 # ==========================================
