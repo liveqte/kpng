@@ -3,7 +3,6 @@
 # ==========================================
 # 1. 动态创建 /tmp 下的 Nginx 缓存目录
 # ==========================================
-# 因为云平台的 /tmp 每次启动都会清空，所以必须在启动 Nginx 前重新创建
 mkdir -p /tmp/nginx/client_body \
          /tmp/nginx/proxy \
          /tmp/nginx/fastcgi \
@@ -11,6 +10,10 @@ mkdir -p /tmp/nginx/client_body \
          /tmp/nginx/scgi
 
 # ==========================================
-# 2. 启动 Nginx (前台运行)
+# 2. 启动 Nginx (核心修改在这里)
 # ==========================================
-exec nginx -g "daemon off;"
+# 通过 -g 参数动态覆盖配置：
+# 1. pid /tmp/nginx.pid;  -> 解决 /run/nginx.pid 权限拒绝问题
+# 2. error_log /dev/stderr; -> 顺便把错误日志输出到控制台，防止写 /var/log 报权限错误
+# 3. daemon off; -> 保持前台运行
+exec nginx -g "daemon off; pid /tmp/nginx.pid; error_log /dev/stderr;"
