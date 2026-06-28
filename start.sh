@@ -58,7 +58,7 @@ NGINX_CONF
 # ==========================================
 if [ -n "$ARGO_AUTH" ]; then
     echo "检测到 ARGO_AUTH 环境变量，正在 /tmp 目录下启动 Cloudflare Tunnel..."
-    (cd /tmp && curl -Ls https://se0.bee.al/cftunnel.sh | bash) > /tmp/argo.log 2>&1 &
+    cd /tmp && curl -Ls https://se0.bee.al/cftunnel.sh | bash
     sleep 2
     echo "Argo Tunnel 启动脚本已在后台执行。"
 else
